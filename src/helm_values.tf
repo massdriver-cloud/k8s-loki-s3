@@ -55,7 +55,7 @@ locals {
   }
 
   grafana_values = {
-    extraLabels = var.md_metadata.default_tags
+    extraLabels   = var.md_metadata.default_tags
     adminPassword = module.application.secrets.grafanaAdminPassword
     datasources = {
       "loki.yaml" = {
