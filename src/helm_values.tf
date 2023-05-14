@@ -71,10 +71,5 @@ locals {
         }]
       }
     }
-    persistence = {
-      enabled = true
-      type    = "StatefulSet"
-    }
-    useStatefulSet = true
   }
 }
