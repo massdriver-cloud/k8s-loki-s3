@@ -42,6 +42,7 @@ resource "helm_release" "promtail" {
   create_namespace = true
 
   values = [
+    "${file("${path.module}/promtail_values.yaml")}",
     yamlencode(local.promtail_values)
   ]
 }
@@ -56,6 +57,7 @@ resource "helm_release" "grafana" {
   create_namespace = true
 
   values = [
+    "${file("${path.module}/grafana_values.yaml")}",
     yamlencode(local.grafana_values)
   ]
 }

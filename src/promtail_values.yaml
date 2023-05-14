@@ -1,0 +1,6 @@
+config:
+  snippets:
+    extraRelabelConfigs:
+      # keep all kubernetes labels
+      - action: labelmap
+        regex: __meta_kubernetes_pod_label_(.+)
