@@ -28,6 +28,7 @@ resource "helm_release" "loki" {
   create_namespace = true
 
   values = [
+    "${file("${path.module}/loki_values.yaml")}",
     yamlencode(local.loki_values)
   ]
 }
