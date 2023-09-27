@@ -1,0 +1,4 @@
+# disable self monitoring
+monitoring:
+  selfMonitoring:
+    enabled: false
