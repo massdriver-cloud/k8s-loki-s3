@@ -3,7 +3,6 @@ name: k8s-loki-s3
 version: 1.0.0
 description: Grafana Loki is a horizontally scalable, highly available, multi-tenant log aggregation system which supports S3 as a storage backend.
 source_url: https://github.com/massdriver-cloud/k8s-loki-s3
-type: application
 app:
   envs: {}
   policies:
