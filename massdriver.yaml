@@ -1,58 +1,55 @@
 schema: draft-07
 name: k8s-loki-s3
+version: 1.0.0
 description: Grafana Loki is a horizontally scalable, highly available, multi-tenant log aggregation system which supports S3 as a storage backend.
-source_url: github.com/massdriver-cloud/k8s-loki-s3
-access: private
-type: application
-
+source_url: https://github.com/massdriver-cloud/k8s-loki-s3
 app:
   envs: {}
   policies:
-    - .connections.bucket.data.security.iam.read
-    - .connections.bucket.data.security.iam.write
+  - ".connections.bucket.data.security.iam.read"
+  - ".connections.bucket.data.security.iam.write"
   secrets:
     grafanaAdminPassword:
       required: true
       title: Grafana Password
       description: Admin password for Grafana
-
 params:
   examples:
-    - __name: Single Binary
-      loki:
-        scalable: false
-        singleBinary:
-          replicas: 2
-      promtail:
-        enabled: true
-      grafana:
-        enabled: true
-    - __name: Scalable
-      loki:
-        scalable: true
-        backend:
-          replicas: 3
-        read:
-          replicas: 3
-        write:
-          replicas: 3
-      promtail:
-        enabled: true
-      grafana:
-        enabled: true
+  - __name: Single Binary
+    loki:
+      scalable: false
+      singleBinary:
+        replicas: 2
+    promtail:
+      enabled: true
+    grafana:
+      enabled: true
+  - __name: Scalable
+    loki:
+      scalable: true
+      backend:
+        replicas: 3
+      read:
+        replicas: 3
+      write:
+        replicas: 3
+    promtail:
+      enabled: true
+    grafana:
+      enabled: true
   required:
-    - namespace
+  - namespace
   properties:
     namespace:
       title: Kubernetes Namespace
       description: Application will be deployed into this namespace. If the namespace doesn't exist, it will be created.
-      $ref: https://raw.githubusercontent.com/massdriver-cloud/artifact-definitions/main/definitions/types/k8s-resource-name.json
+      "$ref": https://raw.githubusercontent.com/massdriver-cloud/artifact-definitions/main/definitions/types/k8s-resource-name.json
       default: loki
     loki:
       title: Loki Configuration
       type: object
       required:
-        - scalable
+      - scalable
       properties:
         scalable:
           title: Enable Scalable Mode
@@ -62,72 +59,71 @@ params:
       dependencies:
         scalable:
           oneOf:
-            - properties:
-                scalable:
-                  const: false
-                singleBinary:
-                  title: Single Binary Configuration
-                  type: object
-                  required:
-                    - replicas
-                  properties:
-                    replicas:
-                      title: Replicas
-                      description: Number of Loki instances to run in ["monolothic"](https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#monolithic-mode) mode (minimum 2).
-                      type: integer
-                      minimum: 2
-                      default: 3
-              required:
-                - singleBinary
-            - properties:
-                scalable:
-                  const: true
-                backend:
-                  title: Backend Instance Configuration
-                  type: object
-                  required:
-                    - replicas
-                  properties:
-                    replicas:
-                      title: Replicas
-                      description: The number of 'backend' instances to run.
-                      type: integer
-                      minimum: 1
-                      default: 3
-                read:
-                  title: Read Instance Configuration
-                  type: object
-                  required:
-                    - replicas
-                  properties:
-                    replicas:
-                      title: Replicas
-                      description: The number of 'read' instances to run
-                      type: integer
-                      minimum: 1
-                      default: 3
-                write:
-                  title: Write Instance Configuration
-                  type: object
-                  required:
-                    - replicas
-                  properties:
-                    replicas:
-                      title: Replicas
-                      description: The number of 'write' instances to run
-                      type: integer
-                      minimum: 1
-                      default: 3
-              required:
-                - backend
-                - read
-                - write
-            
+          - properties:
+              scalable:
+                const: false
+              singleBinary:
+                title: Single Binary Configuration
+                type: object
+                required:
+                - replicas
+                properties:
+                  replicas:
+                    title: Replicas
+                    description: Number of Loki instances to run in ["monolothic"](https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/#monolithic-mode) mode (minimum 2).
+                    type: integer
+                    minimum: 2
+                    default: 3
+            required:
+            - singleBinary
+          - properties:
+              scalable:
+                const: true
+              backend:
+                title: Backend Instance Configuration
+                type: object
+                required:
+                - replicas
+                properties:
+                  replicas:
+                    title: Replicas
+                    description: The number of 'backend' instances to run.
+                    type: integer
+                    minimum: 1
+                    default: 3
+              read:
+                title: Read Instance Configuration
+                type: object
+                required:
+                - replicas
+                properties:
+                  replicas:
+                    title: Replicas
+                    description: The number of 'read' instances to run
+                    type: integer
+                    minimum: 1
+                    default: 3
+              write:
+                title: Write Instance Configuration
+                type: object
+                required:
+                - replicas
+                properties:
+                  replicas:
+                    title: Replicas
+                    description: The number of 'write' instances to run
+                    type: integer
+                    minimum: 1
+                    default: 3
+            required:
+            - backend
+            - read
+            - write
     promtail:
       title: Promtail Configuration
       type: object
       required:
-        - enabled
+      - enabled
       properties:
         enabled:
           title: Install Promtail
@@ -138,60 +134,46 @@ params:
       title: Grafana Configuration
       type: object
       required:
-        - enabled
+      - enabled
       properties:
         enabled:
           title: Install Grafana
           description: Enabling this will install [Grafana](https://grafana.com/docs/grafana/latest/introduction/) for searching and viewing logs. If you have an existing Grafana instance you would prefer to use you can disable installation of this instance.
           type: boolean
           default: true
-
 connections:
   required:
-    - kubernetes_cluster
-    - bucket
+  - kubernetes_cluster
+  - bucket
   properties:
     kubernetes_cluster:
-      $ref: massdriver/kubernetes-cluster
+      "$ref": massdriver/kubernetes-cluster
     aws_authentication:
-      $ref: massdriver/aws-iam-role
+      "$ref": massdriver/aws-iam-role
     gcp_authentication:
-      $ref: massdriver/gcp-service-account
+      "$ref": massdriver/gcp-service-account
     azure_authentication:
-      $ref: massdriver/azure-service-principal
+      "$ref": massdriver/azure-service-principal
     bucket:
-      $ref: massdriver/aws-s3-bucket
-
-
-#########
-### Uncomment below to enable producing artifacts for your web service.
-### You only need to uncomment the following if you intend to connect your internal services in Massdriver.
-### You will also need to uncomment the contents of `src/_artifacts.tf`.
-#########
-#
-# artifacts:
-#   required:
-#     - public
-#     - internal
-#   properties:
-#     public:
-#       $ref: massdriver/api
-#     internal:
-#       $ref: massdriver/api
-
-
+      "$ref": massdriver/aws-s3-bucket
 ui:
   ui:order:
-    - namespace
-    - loki
-    - promtail
-    - grafana
-    - "*"
+  - namespace
+  - loki
+  - promtail
+  - grafana
+  - "*"
   loki:
     ui:order:
-      - scalable
-      - singleBinary
-      - backend
-      - read
-      - write
-      - "*"
+    - scalable
+    - singleBinary
+    - backend
+    - read
+    - write
+    - "*"
+steps:
+- path: src
+  provisioner: opentofu
+  config:
+    checkov:
+      enable: true
