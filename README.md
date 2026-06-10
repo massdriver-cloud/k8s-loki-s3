@@ -104,57 +104,45 @@ Connections from other bundles that this bundle depends on.
 <!-- CONNECTIONS:START -->
 ## Properties
 
-- **`aws_authentication`** *(object)*: . Cannot contain additional properties.
-  - **`data`** *(object)*
-    - **`arn`** *(string)*: Amazon Resource Name.
+- **`aws_authentication`** *(object)*: Configure your AWS IAM Role connection details. Cannot contain additional properties.
+  - **`arn`** *(string)*: The Amazon Resource Name (ARN) of the IAM role that Massdriver will assume to access your AWS account. Format: arn:aws:iam::ACCOUNT_ID:role/ROLE_NAME.
 
-      Examples:
-      ```json
-      "arn:aws:rds::ACCOUNT_NUMBER:db/prod"
-      ```
+    Examples:
+    ```json
+    "arn:aws:rds::ACCOUNT_NUMBER:db/prod"
+    ```
 
-      ```json
-      "arn:aws:ec2::ACCOUNT_NUMBER:vpc/vpc-foo"
-      ```
+    ```json
+    "arn:aws:ec2::ACCOUNT_NUMBER:vpc/vpc-foo"
+    ```
 
-    - **`external_id`** *(string)*: An external ID is a piece of data that can be passed to the AssumeRole API of the Security Token Service (STS). You can then use the external ID in the condition element in a role's trust policy, allowing the role to be assumed only when a certain value is present in the external ID.
-  - **`specs`** *(object)*
-    - **`aws`** *(object)*: .
-      - **`region`** *(string)*: AWS Region to provision in.
+  - **`external_id`** *(string)*: Optional security token used to prevent confused deputy attacks. If your IAM role's trust policy requires an external ID, enter it here. This value must match the external ID condition in your role's trust policy.
+- **`azure_authentication`** *(object)*: Enter your Azure service principal authentication details. Cannot contain additional properties.
+  - **`client_id`** *(string)*: The application (client) ID of your Azure service principal. This is also called the Application ID.
 
-        Examples:
-        ```json
-        "us-west-2"
-        ```
+    Examples:
+    ```json
+    "123xyz99-ab34-56cd-e7f8-456abc1q2w3e"
+    ```
 
-- **`azure_authentication`** *(object)*: . Cannot contain additional properties.
-  - **`data`** *(object)*
-    - **`client_id`** *(string)*: A valid UUID field.
+  - **`client_secret`** *(string)*: The secret value (password) for your Azure service principal. This is created when you generate a client secret in Azure AD.
+  - **`subscription_id`** *(string)*: The Azure subscription ID where Massdriver will provision and manage your infrastructure.
 
-      Examples:
-      ```json
-      "123xyz99-ab34-56cd-e7f8-456abc1q2w3e"
-      ```
+    Examples:
+    ```json
+    "123xyz99-ab34-56cd-e7f8-456abc1q2w3e"
+    ```
 
-    - **`client_secret`** *(string)*
-    - **`subscription_id`** *(string)*: A valid UUID field.
+  - **`tenant_id`** *(string)*: The Azure Active Directory tenant ID (also called Directory ID) where your service principal is registered.
 
-      Examples:
-      ```json
-      "123xyz99-ab34-56cd-e7f8-456abc1q2w3e"
-      ```
+    Examples:
+    ```json
+    "123xyz99-ab34-56cd-e7f8-456abc1q2w3e"
+    ```
 
-    - **`tenant_id`** *(string)*: A valid UUID field.
-
-      Examples:
-      ```json
-      "123xyz99-ab34-56cd-e7f8-456abc1q2w3e"
-      ```
-
-  - **`specs`** *(object)*
 - **`bucket`** *(object)*: Cannot contain additional properties.
-  - **`data`** *(object)*
-    - **`infrastructure`** *(object)*
+  - **`data`** *(object)*: Cannot contain additional properties.
+    - **`infrastructure`** *(object)*: Cannot contain additional properties.
       - **`arn`** *(string)*: Amazon Resource Name.
 
         Examples:
@@ -207,8 +195,8 @@ Connections from other bundles that this bundle depends on.
 
           - **`port`** *(integer)*: Port number. Minimum: `0`. Maximum: `65535`.
           - **`protocol`** *(string)*: Must be one of: `['tcp', 'udp']`.
-  - **`specs`** *(object)*
-    - **`aws`** *(object)*: .
+  - **`specs`** *(object)*: Cannot contain additional properties.
+    - **`aws`** *(object)*: . Cannot contain additional properties.
       - **`region`** *(string)*: AWS Region to provision in.
 
         Examples:
@@ -216,221 +204,137 @@ Connections from other bundles that this bundle depends on.
         "us-west-2"
         ```
 
-- **`gcp_authentication`** *(object)*: GCP Service Account. Cannot contain additional properties.
-  - **`data`** *(object)*
-    - **`auth_provider_x509_cert_url`** *(string)*: Auth Provider x509 Certificate URL. Default: `https://www.googleapis.com/oauth2/v1/certs`.
+- **`gcp_authentication`** *(object)*: Upload your GCP service account JSON key file or enter the credentials manually. These values come from the JSON key file you download from Google Cloud Console. Cannot contain additional properties.
+  - **`auth_provider_x509_cert_url`** *(string)*: URL for Google's OAuth2 certificate provider. Usually left as default unless using a custom endpoint. Default: `https://www.googleapis.com/oauth2/v1/certs`.
 
-      Examples:
-      ```json
-      "https://example.com/some/path"
-      ```
+    Examples:
+    ```json
+    "https://example.com/some/path"
+    ```
 
-      ```json
-      "https://massdriver.cloud"
-      ```
+    ```json
+    "https://massdriver.cloud"
+    ```
 
-    - **`auth_uri`** *(string)*: Auth URI. Default: `https://accounts.google.com/o/oauth2/auth`.
+  - **`auth_uri`** *(string)*: Google OAuth2 authorization endpoint. Usually left as default unless using a custom endpoint. Default: `https://accounts.google.com/o/oauth2/auth`.
 
-      Examples:
-      ```json
-      "https://example.com/some/path"
-      ```
+    Examples:
+    ```json
+    "https://example.com/some/path"
+    ```
 
-      ```json
-      "https://massdriver.cloud"
-      ```
+    ```json
+    "https://massdriver.cloud"
+    ```
 
-    - **`client_email`** *(string)*: Service Account Email.
+  - **`client_email`** *(string)*: The email address of your GCP service account (e.g., my-service-account@my-project.iam.gserviceaccount.com).
 
-      Examples:
-      ```json
-      "jimmy@massdriver.cloud"
-      ```
+    Examples:
+    ```json
+    "jimmy@massdriver.cloud"
+    ```
 
-      ```json
-      "service-account-y@gmail.com"
-      ```
+    ```json
+    "service-account-y@gmail.com"
+    ```
 
-    - **`client_id`** *(string)*: .
-    - **`client_x509_cert_url`** *(string)*: Client x509 Certificate URL.
+  - **`client_id`** *(string)*: The unique identifier for your service account. Found in your service account JSON key file.
+  - **`client_x509_cert_url`** *(string)*: URL to the X.509 certificate for this service account. Used for certificate-based authentication.
 
-      Examples:
-      ```json
-      "https://example.com/some/path"
-      ```
+    Examples:
+    ```json
+    "https://example.com/some/path"
+    ```
 
-      ```json
-      "https://massdriver.cloud"
-      ```
+    ```json
+    "https://massdriver.cloud"
+    ```
 
-    - **`private_key`** *(string)*: .
-    - **`private_key_id`** *(string)*: .
-    - **`project_id`** *(string)*: .
-    - **`token_uri`** *(string)*: Token URI. Default: `https://oauth2.googleapis.com/token`.
+  - **`private_key`** *(string)*: The private key for your service account. This is a sensitive value that should be kept secure. Found in your service account JSON key file.
+  - **`private_key_id`** *(string)*: The unique identifier for the private key associated with this service account.
+  - **`project_id`** *(string)*: The Google Cloud Platform project ID where this service account belongs and where Massdriver will provision infrastructure.
+  - **`token_uri`** *(string)*: Google OAuth2 token endpoint. Usually left as default unless using a custom endpoint. Default: `https://oauth2.googleapis.com/token`.
 
-      Examples:
-      ```json
-      "https://example.com/some/path"
-      ```
+    Examples:
+    ```json
+    "https://example.com/some/path"
+    ```
 
-      ```json
-      "https://massdriver.cloud"
-      ```
+    ```json
+    "https://massdriver.cloud"
+    ```
 
-    - **`type`** *(string)*: . Default: `service_account`.
-  - **`specs`** *(object)*
-    - **`gcp`** *(object)*: .
-      - **`project`** *(string)*
-      - **`region`** *(string)*: The GCP region to provision resources in.
-
-        Examples:
-        ```json
-        "us-east1"
-        ```
-
-        ```json
-        "us-east4"
-        ```
-
-        ```json
-        "us-west1"
-        ```
-
-        ```json
-        "us-west2"
-        ```
-
-        ```json
-        "us-west3"
-        ```
-
-        ```json
-        "us-west4"
-        ```
-
-        ```json
-        "us-central1"
-        ```
-
+  - **`type`** *(string)*: The type of credential. Should be 'service_account' for service account keys. Default: `service_account`.
 - **`kubernetes_cluster`** *(object)*: Kubernetes cluster authentication and cloud-specific configuration. Cannot contain additional properties.
-  - **`data`** *(object)*
-    - **`authentication`** *(object)*
-      - **`cluster`** *(object)*
-        - **`certificate-authority-data`** *(string)*
-        - **`server`** *(string)*
-      - **`user`** *(object)*
-        - **`token`** *(string)*
-    - **`infrastructure`** *(object)*: Cloud specific Kubernetes configuration data.
-      - **One of**
-        - AWS EKS infrastructure config*object*: . Cannot contain additional properties.
-          - **`arn`** *(string)*: Amazon Resource Name.
+  - **`authentication`** *(object)*: Connection details required to authenticate with your Kubernetes cluster. Cannot contain additional properties.
+    - **`cluster`** *(object)*: Information about the Kubernetes API server you're connecting to. Cannot contain additional properties.
+      - **`certificate-authority-data`** *(string)*: Base64-encoded certificate authority (CA) certificate used to verify the Kubernetes API server's identity. This ensures you're connecting to the correct cluster.
+      - **`server`** *(string)*: The full URL endpoint of your Kubernetes API server (e.g., https://api.example.com:6443).
+    - **`user`** *(object)*: Credentials for authenticating as a user with the Kubernetes cluster. Cannot contain additional properties.
+      - **`token`** *(string)*: Authentication token used to authenticate with the Kubernetes API server. This is typically a service account token or user token.
+  - **`infrastructure`** *(object)*: Optional cloud provider-specific configuration for your Kubernetes cluster. Only needed if your cluster is managed by AWS EKS, Azure AKS, or GCP GKE.
+    - **One of**
+      - AWS EKS infrastructure config*object*: . Cannot contain additional properties.
+        - **`arn`** *(string)*: Amazon Resource Name.
 
-            Examples:
-            ```json
-            "arn:aws:rds::ACCOUNT_NUMBER:db/prod"
-            ```
+          Examples:
+          ```json
+          "arn:aws:rds::ACCOUNT_NUMBER:db/prod"
+          ```
 
-            ```json
-            "arn:aws:ec2::ACCOUNT_NUMBER:vpc/vpc-foo"
-            ```
+          ```json
+          "arn:aws:ec2::ACCOUNT_NUMBER:vpc/vpc-foo"
+          ```
 
-          - **`oidc_issuer_url`** *(string)*: An HTTPS endpoint URL.
+        - **`oidc_issuer_url`** *(string)*: An HTTPS endpoint URL.
 
-            Examples:
-            ```json
-            "https://example.com/some/path"
-            ```
+          Examples:
+          ```json
+          "https://example.com/some/path"
+          ```
 
-            ```json
-            "https://massdriver.cloud"
-            ```
+          ```json
+          "https://massdriver.cloud"
+          ```
 
-        - Infrastructure Config*object*: Azure AKS Infrastructure Configuration. Cannot contain additional properties.
-          - **`ari`** *(string)*: Azure Resource ID.
+      - Infrastructure Config*object*: Azure AKS Infrastructure Configuration. Cannot contain additional properties.
+        - **`ari`** *(string)*: Azure Resource ID.
 
-            Examples:
-            ```json
-            "/subscriptions/12345678-1234-1234-abcd-1234567890ab/resourceGroups/resource-group-name/providers/Microsoft.Network/virtualNetworks/network-name"
-            ```
+          Examples:
+          ```json
+          "/subscriptions/12345678-1234-1234-abcd-1234567890ab/resourceGroups/resource-group-name/providers/Microsoft.Network/virtualNetworks/network-name"
+          ```
 
-          - **`oidc_issuer_url`** *(string)*
-        - GCP Infrastructure GRN*object*: Minimal GCP Infrastructure Config. Cannot contain additional properties.
-          - **`grn`** *(string)*: GCP Resource Name (GRN).
+        - **`oidc_issuer_url`** *(string)*
+      - GCP Infrastructure GRN*object*: Minimal GCP Infrastructure Config. Cannot contain additional properties.
+        - **`grn`** *(string)*: GCP Resource Name (GRN).
 
-            Examples:
-            ```json
-            "projects/my-project/global/networks/my-global-network"
-            ```
+          Examples:
+          ```json
+          "projects/my-project/global/networks/my-global-network"
+          ```
 
-            ```json
-            "projects/my-project/regions/us-west2/subnetworks/my-subnetwork"
-            ```
+          ```json
+          "projects/my-project/regions/us-west2/subnetworks/my-subnetwork"
+          ```
 
-            ```json
-            "projects/my-project/topics/my-pubsub-topic"
-            ```
+          ```json
+          "projects/my-project/topics/my-pubsub-topic"
+          ```
 
-            ```json
-            "projects/my-project/subscriptions/my-pubsub-subscription"
-            ```
+          ```json
+          "projects/my-project/subscriptions/my-pubsub-subscription"
+          ```
 
-            ```json
-            "projects/my-project/locations/us-west2/instances/my-redis-instance"
-            ```
+          ```json
+          "projects/my-project/locations/us-west2/instances/my-redis-instance"
+          ```
 
-            ```json
-            "projects/my-project/locations/us-west2/clusters/my-gke-cluster"
-            ```
+          ```json
+          "projects/my-project/locations/us-west2/clusters/my-gke-cluster"
+          ```
 
-  - **`specs`** *(object)*
-    - **`aws`** *(object)*: .
-      - **`region`** *(string)*: AWS Region to provision in.
-
-        Examples:
-        ```json
-        "us-west-2"
-        ```
-
-    - **`azure`** *(object)*: .
-      - **`region`** *(string)*: Select the Azure region you'd like to provision your resources in.
-    - **`gcp`** *(object)*: .
-      - **`project`** *(string)*
-      - **`region`** *(string)*: The GCP region to provision resources in.
-
-        Examples:
-        ```json
-        "us-east1"
-        ```
-
-        ```json
-        "us-east4"
-        ```
-
-        ```json
-        "us-west1"
-        ```
-
-        ```json
-        "us-west2"
-        ```
-
-        ```json
-        "us-west3"
-        ```
-
-        ```json
-        "us-west4"
-        ```
-
-        ```json
-        "us-central1"
-        ```
-
-    - **`kubernetes`** *(object)*: Kubernetes distribution and version specifications.
-      - **`cloud`** *(string)*: Must be one of: `['aws', 'gcp', 'azure']`.
-      - **`distribution`** *(string)*: Must be one of: `['eks', 'gke', 'aks']`.
-      - **`platform_version`** *(string)*
-      - **`version`** *(string)*
+  - **`specs`** *(object)*: Can contain additional properties.
 <!-- CONNECTIONS:END -->
 
 </details>

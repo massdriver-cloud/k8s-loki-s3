@@ -147,15 +147,15 @@ connections:
   - bucket
   properties:
     kubernetes_cluster:
-      "$ref": massdriver/kubernetes-cluster
+      "$ref": kubernetes-cluster
     aws_authentication:
-      "$ref": massdriver/aws-iam-role
+      "$ref": aws-iam-role
     gcp_authentication:
-      "$ref": massdriver/gcp-service-account
+      "$ref": gcp-service-account
     azure_authentication:
-      "$ref": massdriver/azure-service-principal
+      "$ref": azure-service-principal
     bucket:
-      "$ref": massdriver/aws-s3-bucket
+      "$ref": aws-s3-bucket
 ui:
   ui:order:
   - namespace
